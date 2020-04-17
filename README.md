@@ -1,5 +1,5 @@
 # Travelling Salesman Problem
-This is a school project which aims at designing different types of algorithms and heuristics in order to solve the TSP problem.
+This is a school project which aims at designing different types of algorithms/heuristics in order to solve the TSP problem.
 We also study and compare the performance of each solution.
 This project is developed thanks to the [Boost](https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/index.html) library in C++.
 
