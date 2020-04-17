@@ -1,7 +1,7 @@
 #include <iostream>
-#include <boost/graph/graphml.hpp>
+#include "GraphParser.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    UndirectedCompleteGraph graph = graphFromFile("17.in");
     return 0;
 }

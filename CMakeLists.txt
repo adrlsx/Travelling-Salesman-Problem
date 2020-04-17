@@ -3,4 +3,4 @@ project(Travelling_Salesman_Problem)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Travelling_Salesman_Problem main.cpp)
+add_executable(Travelling_Salesman_Problem main.cpp GraphParser.cpp GraphParser.h)

@@ -1,6 +1,7 @@
 # Travelling Salesman Problem
 
 ## Authors
+* [arthur79](https://github.com/arthur79)
 * [jeremybeaugeard](https://github.com/jeremybeaugeard)
 * [rt6fano](https://github.com/rt6fano)
 * [adrienls](https://github.com/adrienls)
