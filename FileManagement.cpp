@@ -1,10 +1,12 @@
 #include <iostream>
-#include "GraphParser.h"
+#include "FileManagement.h"
 
 #define STRING_TO_ULONG(string) (strtoul(string.c_str(), nullptr, 10))
 
+using std::endl, std::stringstream;
+
 UndirectedCompleteGraph graphFromFile(const string& fileName){
-    std::ifstream graphFile(fileName, std::ios::in);  //opens the file "fileName" in input mode
+    std::ifstream graphFile(fileName);  //opens the file "fileName" in input mode
 
     if(graphFile.is_open()){
         string input;
@@ -20,7 +22,7 @@ UndirectedCompleteGraph graphFromFile(const string& fileName){
 
             if(input != "0" && matrixColumn < nbVertices){     //an adjacency matrix is symmetric about its diagonal, which is filled with 0
                 weight = STRING_TO_ULONG(input);
-                boost::add_edge(matrixLine, matrixColumn, weight, graph);   //adds an edge to the adjacency matrix with the corresponding weight
+                boost::add_edge(matrixLine, matrixColumn, weight, graph);   //adds an edge to the adjacency matrix with the corresponding weight, corresponding vertices are automatically created
                 matrixColumn++;
             }
             else{
@@ -44,8 +46,41 @@ UndirectedCompleteGraph graphFromFile(const string& fileName){
         return graph;
     }
     else{
-        std::stringstream ss;
-        ss << "The file '" << fileName << "' could not be open." << std::endl;       //throws and exception if the file could not be open
+        stringstream ss;
+        ss << "The file '" << fileName << "' could not be open.";       //throws and exception if the file could not be open
         throw std::runtime_error(ss.str());
     }
+}
+
+
+void resultToFile(const vector<unsigned long>& path, const unsigned long& distance, const string& fileName, const string& functionName){
+    stringstream output(fileName);
+    string smallerName;
+    getline(output, smallerName, '.');      //removes the extension ".in" at the end of the file
+
+    output.clear();
+    output << smallerName << "_" << functionName + ".out";
+    std::ofstream resultFile(output.str());      //creates the file "fileName_functionName.out"
+
+    if(resultFile.is_open()){
+        for (auto& it : path) {
+            resultFile << it;
+            if(it != *(path.end()-1)){      //avoids having the last space at the end of the line
+                resultFile << " ";
+            }
+        }
+        resultFile << endl << distance;
+        resultFile.close();
+    }
+    else{
+        stringstream ss;
+        ss << "The file '" << output.str() << "' could not be created.";       //throws and exception if the file could not be created
+        throw std::runtime_error(ss.str());
+    }
+}
+
+unsigned long getWeight(const unsigned long& firstVertex, const unsigned long& secondVertex, const UndirectedCompleteGraph& graph){
+    auto edgeWeightMap = boost::get(edge_weight_t(), graph);
+    auto correspondingEdge = boost::edge(firstVertex, secondVertex, graph).first;
+    return edgeWeightMap[correspondingEdge];
 }

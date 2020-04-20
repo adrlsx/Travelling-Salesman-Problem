@@ -5,7 +5,7 @@
 \usepackage[english]{babel}
 \usepackage[top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
 \usepackage{graphicx}
-\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[boxed, lined, linesnumbered]{algorithm2e}
 
 
 \title{Final project - Travelling Salesman Problem}
@@ -29,29 +29,17 @@
 	In this final graph theory project, we try to solve the Travelling Salesman Problem (TSP) using different algorithms and heuristics.
 	Before we get to the code, it is important to consider how we are going to model the graphs.
 	\paragraph{}
-	In the TSP, we work with undirected complete graphs, which means they are very dense. Adjacency lists are useful for sparse graphs, but in our case it will be more appropriate, in terms of complexity, to use adjacency matrix.
+	In the TSP, we work with undirected complete graphs, which means they are very dense. Adjacency lists are useful for sparse graphs, but in our case it will be more appropriate, in terms of complexity, to use adjacency matrix\cite{complexity}.
 	\paragraph{}
-	To implement the adjacency matrix we will use the C++ Boost library. In this project we seek to compare the performance between different solutions to the same problem. As C++ is a low-level programming language it is very fast and will be suitable for our use. Moreover, the boost library is very well known and widely documented.
+	To implement the adjacency matrix\cite{adjacency_matrix} we will use the C++ Boost\cite{boost} library. In this project we seek to compare the performance between different solutions to the same problem. As C++ is a low-level programming language it is very fast and will be suitable for our use. Moreover, the boost library is very well known and widely documented.
 	
 	\chapter{Real-life situations}
 	
 	\chapter{Exact algorithm}
 		\section{Pseudo-code}
-		
-		\begin{algorithm}
-			\SetAlgoLined
-			\KwData{this text}
-			\KwResult{how to write algorithm with \LaTeX2e }
-			\While{not at end of this document}{
-				read current\;
-				\eIf{understand}{
-					go to next section\;
-					current section becomes this one\;
-				}{
-					go back to the beginning of current section\;
-				}
-			}
-		\end{algorithm}
+			\begin{algorithm}
+				
+			\end{algorithm}
 		
 		\section{Time complexity}
 		\section{Optimal Solution}
@@ -59,18 +47,65 @@
 	
 	\chapter{Constructive heuristic}
 		\section{Pseudo-code}
+			\begin{algorithm}
+				\DontPrintSemicolon
+				\KwIn{$G$ is an undirected complete weighted graph with $n$ vertices}
+				\KwOut{The optimal path found and the corresponding distance}
+				\BlankLine
+				$finalPath \leftarrow empty$\;
+				$finalDistance \leftarrow \infty$\;
+				\BlankLine
+				\ForEach{vertex $V$ of $G$}{
+					$path \leftarrow empty$\;
+					$distance \leftarrow 0$\;
+					$currentVertex \leftarrow V$\;
+					\BlankLine
+					\While{there are still undiscovered vertices}{
+						$minimumWeigth \leftarrow \infty$\;
+						\BlankLine
+						\ForEach{adjacent vertex $V'$ not discovered}{
+							$w \leftarrow$ weight between $V$ and $V'$\;
+							\If{$w$ < $minimumWeight$}{
+								$minimumWeight \leftarrow w$\;
+								$currentVertex \leftarrow V'$\;
+							}
+						}
+						\BlankLine
+						$path \leftarrow path$ + $currentVertex$\;
+						Mark $currentVertex$ as discovered\;
+						$distance \leftarrow distance $ + $minimumWeight$\;
+					}
+					\BlankLine
+					$returnToStart \leftarrow$ weight from $nextVertex$ to $V$\;
+					$distance \leftarrow distance$ + $returnToStart$\;
+					\If{$distance$ < $finalDistance$}{
+						$finalDistance \leftarrow distance$\;
+						$finalPath \leftarrow path$\;
+					}
+				}
+				\BlankLine
+				\Return $finalPath$ and $finalDistance$\;
+			\end{algorithm}
+	
 		\section{Time complexity}
 		\section{Optimal Solution}
 		\section{Execution time and performance}
 	
 	\chapter{Local search heuristic}
 		\section{Pseudo-code}
+			\begin{algorithm}
+				
+			\end{algorithm}
+		
 		\section{Time complexity}
 		\section{Optimal Solution}
 		\section{Execution time and performance}
 	
 	\chapter{GRASP meta-heuristic}
 		\section{Pseudo-code}
+			\begin{algorithm}
+				
+			\end{algorithm}
 		\section{Time complexity}
 		\section{Optimal Solution}
 		\section{Execution time and performance}

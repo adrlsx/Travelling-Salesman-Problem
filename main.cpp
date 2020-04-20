@@ -1,7 +1,8 @@
 #include <iostream>
-#include "GraphParser.h"
+#include "FileManagement.h"
+#include "Exact/Source/ExactAlgorithm.h"
 
 int main() {
-    UndirectedCompleteGraph graph = graphFromFile("17.in");
+    exact("test.in");
     return 0;
 }
