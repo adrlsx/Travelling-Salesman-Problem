@@ -25,27 +25,17 @@
 	\tableofcontents
 	
 	\chapter{Introduction}
-	\paragraph{}
+	\BlankLine
 	In this final graph theory project, we try to solve the Travelling Salesman Problem (TSP) using different algorithms and heuristics.
 	Before we get to the code, it is important to consider how we are going to model the graphs.
-	\paragraph{}
-	In the TSP, we work with undirected complete graphs, which means they are very dense. Adjacency lists are useful for sparse graphs, but in our case it will be more appropriate, in terms of complexity, to use adjacency matrix\cite{complexity}.
-	\paragraph{}
-	To implement the adjacency matrix\cite{adjacency_matrix} we will use the C++ Boost\cite{boost} library. In this project we seek to compare the performance between different solutions to the same problem. As C++ is a low-level programming language it is very fast and will be suitable for our use. Moreover, the boost library is very well known and widely documented.
+	\BlankLine
+	In the TSP, we work with undirected complete graphs, which means they are very dense. Adjacency lists are useful for sparse graphs, but in our case it will be more appropriate, in terms of complexity, to use adjacency matrix.
+	\BlankLine
+	To implement the adjacency matrix we will use the C++ Boost library. In this project we seek to compare the performance between different solutions to the same problem. As C++ is a low-level programming language it is very fast and will be suitable for our use. Moreover, the boost library is very well known and widely documented.
 	
 	\chapter{Real-life situations}
 	
 	\chapter{Exact algorithm}
-		\section{Pseudo-code}
-			\begin{algorithm}
-				
-			\end{algorithm}
-		
-		\section{Time complexity}
-		\section{Optimal Solution}
-		\section{Execution time and performance}
-	
-	\chapter{Constructive heuristic}
 		\section{Pseudo-code}
 			\begin{algorithm}
 				\DontPrintSemicolon
@@ -55,40 +45,76 @@
 				$finalPath \leftarrow empty$\;
 				$finalDistance \leftarrow \infty$\;
 				\BlankLine
-				\ForEach{vertex $V$ of $G$}{
-					$path \leftarrow empty$\;
+					$path \leftarrow$ each vertex number from $1$ to $n$\;
 					$distance \leftarrow 0$\;
-					$currentVertex \leftarrow V$\;
 					\BlankLine
-					\While{there are still undiscovered vertices}{
-						$minimumWeigth \leftarrow \infty$\;
-						\BlankLine
-						\ForEach{adjacent vertex $V'$ not discovered}{
-							$w \leftarrow$ weight between $V$ and $V'$\;
-							\If{$w$ < $minimumWeight$}{
-								$minimumWeight \leftarrow w$\;
-								$currentVertex \leftarrow V'$\;
-							}
+					\ForEach{permutation $P$ of $path$}{
+						$distance \leftarrow$ total distance of the path\;
+						\If{$distance$ < $finalDistance$}{
+							$finalDistance \leftarrow distance$\;
+							$finalPath \leftarrow P$\;
 						}
-						\BlankLine
-						$path \leftarrow path$ + $currentVertex$\;
-						Mark $currentVertex$ as discovered\;
-						$distance \leftarrow distance $ + $minimumWeight$\;
 					}
-					\BlankLine
-					$returnToStart \leftarrow$ weight from $nextVertex$ to $V$\;
-					$distance \leftarrow distance$ + $returnToStart$\;
-					\If{$distance$ < $finalDistance$}{
-						$finalDistance \leftarrow distance$\;
-						$finalPath \leftarrow path$\;
-					}
-				}
 				\BlankLine
 				\Return $finalPath$ and $finalDistance$\;
 			\end{algorithm}
-	
+		
 		\section{Time complexity}
+		There are $n!$ permutations for a path of size $n$. Therefore we are going to execute the $ForEach$ loop $n!$ times.
+		Moreover, we need to add the weight between each vertex of the path to find the total distance, so we need to do $n$. As this calculation is inside the $ForEach$ loop we obtain an overall complexity of:
+		\begin{center}
+			$O(n*n!)$
+		\end{center}
+		This is a brute-force algorithm, which tries out the exhaustive list of possible solutions. It is the most intuitive way to find an exact solution. However using the Held–Karp algorithm or a branch-and-cut algorithm could greatly improve the complexity. Those algorithms are much more advanced and use knowledge linked to dynamic and linear programming. There were therefore too complex to implement in this project.
 		\section{Optimal Solution}
+		\section{Execution time and performance}
+	
+	\chapter{Constructive heuristic}
+
+		\section{Pseudo-code}
+			\begin{algorithm}
+				\DontPrintSemicolon
+				\KwIn{$G$ is an undirected complete weighted graph with $n$ vertices}
+				\KwOut{The optimal path found and the corresponding distance}
+				\BlankLine
+				$path \leftarrow empty$\;
+				$distance \leftarrow 0$\;
+				$firstVertex \leftarrow$ choose randomly a vertex in the graph\;
+				$currentVertex \leftarrow firstVertex$\;
+				Mark $currentVertex$ as discovered\;
+				\BlankLine
+				\While{there are still undiscovered vertices}{
+					$minimumWeigth \leftarrow \infty$\;
+					\BlankLine
+					\ForEach{adjacent vertex $V$ not discovered}{
+						$w \leftarrow$ weight between $currentVertex$ and $V$\;
+						\If{$w$ < $minimumWeight$}{
+							$minimumWeight \leftarrow w$\;
+							$nextVertex \leftarrow V$\;
+						}
+					}
+					\BlankLine
+					$path \leftarrow path$ + $nextVertex$\;
+					$currentVertex \leftarrow nextVertex$\;
+					$distance \leftarrow distance $ + $minimumWeight$\;
+				}
+				\BlankLine
+				$lastWeight \leftarrow$ weight from $currentVertex$ to $firstVertex$\;
+				$distance \leftarrow distance$ + $lastWeight$\;
+			\BlankLine
+			\Return $path$ and $distance$\;
+			\end{algorithm}
+
+		\section{Time complexity}
+			The first loop makes sure that each vertex of the graph has been discovered, it is executed $ n $ times.
+			The second loop tests each undiscovered adjacent vertex, thus there are never more than $n-1$ iterations of this loop and its number decreases as the algorithm reaches the end.
+			Since the three loops are nested and each of them is $n$ iterations or less, we have an overall complexity of:
+			\begin{center}
+				O($n^{2}$)
+			\end{center}
+			We could improve the precision of the solution by running the algorithm $n$ times and starting at each vertex of the graph. By doing this we could keep only the best result but the complexity would become O($n^{3}$). It slightly improve the precision of the solution but greatly decreases the algorithm performance.
+		\section{Optimal Solution}
+		This algorithm is an implementation of the Nearest neighbour algorithm;
 		\section{Execution time and performance}
 	
 	\chapter{Local search heuristic}
@@ -112,7 +138,7 @@
 	
 	\chapter{Conclusion}
 	
-	\bibliographystyle{unsrt}
-	\bibliography{Bibliography}
+	%\bibliographystyle{unsrt}
+	%\bibliography{Bibliography}
 	
 \end{document}

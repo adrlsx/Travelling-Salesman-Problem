@@ -1,12 +1,7 @@
-#include <iostream>
 #include "FileManagement.h"
 
-#define STRING_TO_ULONG(string) (strtoul(string.c_str(), nullptr, 10))
-
-using std::endl, std::stringstream;
-
 UndirectedCompleteGraph graphFromFile(const string& fileName){
-    std::ifstream graphFile(fileName);  //opens the file "fileName" in input mode
+    std::ifstream graphFile(fileName, ios::in);  //opens the file "fileName" in input mode
 
     if(graphFile.is_open()){
         string input;
@@ -60,11 +55,11 @@ void resultToFile(const vector<unsigned long>& path, const unsigned long& distan
 
     output.clear();
     output << smallerName << "_" << functionName + ".out";
-    std::ofstream resultFile(output.str());      //creates the file "fileName_functionName.out"
+    std::ofstream resultFile(output.str(), ios::out);      //creates the file "fileName_functionName.out"
 
     if(resultFile.is_open()){
         for (auto& it : path) {
-            resultFile << it;
+            resultFile << it+1;     //adds 1 to each vertex because the vertex index in the result file should starts at 1, not at 0 like in C++
             if(it != *(path.end()-1)){      //avoids having the last space at the end of the line
                 resultFile << " ";
             }
