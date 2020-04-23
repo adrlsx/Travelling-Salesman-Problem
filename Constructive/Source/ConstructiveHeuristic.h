@@ -11,5 +11,5 @@ using std::unordered_set, std::pair;
 typedef boost::graph_traits<Graph>::adjacency_iterator adjacency_iterator;      //adjacency iterator type
 
 void constructive(UndirectedCompleteGraph& graph);
-unsigned int nearestVertex(unsigned int vertex, const unordered_set<unsigned int>& discovered, const UndirectedCompleteGraph& graph);
+unsigned int nearestVertex(unsigned int vertex, const vector<bool>& discovered, const UndirectedCompleteGraph& graph);
 #endif //TRAVELLING_SALESMAN_PROBLEM_CONSTRUCTIVEHEURISTIC_H

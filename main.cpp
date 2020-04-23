@@ -12,9 +12,9 @@
 int main() {
     auto time1 = GET_TIME;
 
-    UndirectedCompleteGraph graph("Local_Search/Instances/5915.in");
-    localSearch(graph);
-    graph.pathToFile("local_search");     //prints out the result in a file
+    UndirectedCompleteGraph graph("Constructive/Instances/5915.in");
+    constructive(graph);
+    graph.pathToFile("constructive");     //prints out the result in a file
 
     auto time2 = GET_TIME;
     double execTime = EXECUTION_TIME(time1, time2);
