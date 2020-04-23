@@ -3,7 +3,7 @@
 void constructive(UndirectedCompleteGraph& graph){
     unsigned int vertex = FIRST_VERTEX, nbVertices = graph.getNbVertices();
 
-    vector<bool> discoveredVertices(nbVertices+1, false);     //use of vector of bool to verify if a specific vertex is already marked as discovered in constant time
+    vector<bool> discoveredVertices(nbVertices, false);     //use of vector of bool to verify if a specific vertex is already marked as discovered in constant time
 
     while (graph.pathSize() != nbVertices) {        //while all vertices have not been discovered
         graph.updatePath(vertex);                   //adds the nearest vertex to the path and updates the distance
