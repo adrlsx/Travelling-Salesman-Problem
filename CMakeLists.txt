@@ -3,4 +3,4 @@ project(Travelling_Salesman_Problem)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Travelling_Salesman_Problem main.cpp FileManagement.cpp FileManagement.h Constructive/Source/ConstructiveHeuristic.cpp Constructive/Source/ConstructiveHeuristic.h Exact/Source/ExactAlgorithm.cpp Exact/Source/ExactAlgorithm.h)
+add_executable(Travelling_Salesman_Problem main.cpp Constructive/Source/ConstructiveHeuristic.cpp Constructive/Source/ConstructiveHeuristic.h Exact/Source/ExactAlgorithm.cpp Exact/Source/ExactAlgorithm.h UndirectedCompleteGraph.cpp UndirectedCompleteGraph.h Local_Search/Source/LocalSearchHeuristic.cpp Local_Search/Source/LocalSearchHeuristic.h)

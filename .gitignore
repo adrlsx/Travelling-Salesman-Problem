@@ -35,3 +35,6 @@ Report/*.toc
 Report/*.blg
 Report/*.bbl
 Report/*.aux
+
+*.in
+*.out
