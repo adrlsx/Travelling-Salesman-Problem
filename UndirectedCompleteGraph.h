@@ -1,16 +1,12 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "modernize-use-nodiscard"
 #ifndef TRAVELLING_SALESMAN_PROBLEM_UNDIRECTEDCOMPLETEGRAPH_H
 #define TRAVELLING_SALESMAN_PROBLEM_UNDIRECTEDCOMPLETEGRAPH_H
 
 #include <boost/graph/adjacency_matrix.hpp>
-#include <fstream>
 
-#define STRING_TO_ULONG(string) strtoul((string).c_str(), nullptr, 10)      //converts a string to an unsigned long
 #define MAX_VALUE (std::numeric_limits<unsigned int>::max()) //this is the max value an unsigned int can hold, it is used in algorithm to model an infinite number
 
 using boost::edge_weight_t, boost::undirectedS, boost::no_property, boost::undirected_tag;
-using std::string, std::vector, std::endl, std::stringstream, std::ios;
+using std::string, std::vector;
 
 typedef boost::property<edge_weight_t, unsigned int> Weight;   //weight type
 typedef boost::adjacency_matrix<undirectedS, no_property, Weight> Graph;   //undirected complete graph type
@@ -56,5 +52,3 @@ public:
 
 
 #endif //TRAVELLING_SALESMAN_PROBLEM_UNDIRECTEDCOMPLETEGRAPH_H
-
-#pragma clang diagnostic pop

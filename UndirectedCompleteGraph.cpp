@@ -1,4 +1,10 @@
+#include <fstream>
+#include <iostream>
 #include "UndirectedCompleteGraph.h"
+
+#define STRING_TO_ULONG(string) strtoul((string).c_str(), nullptr, 10)      //converts a string to an unsigned long
+
+using std::endl, std::stringstream, std::ios;
 
 UndirectedCompleteGraph::UndirectedCompleteGraph(const string &fileName) : fileName(fileName), graph(matrixSize()), distance(0) {
     std::ifstream graphFile(fileName, ios::in);  //opens the file "fileName" in input mode
@@ -61,9 +67,9 @@ unsigned int UndirectedCompleteGraph::matrixSize(){
 }
 
 void UndirectedCompleteGraph::pathToFile(const string& functionName) const{
-    stringstream output(this->fileName);
-    string smallerName;
-    getline(output, smallerName, '.');      //removes the extension ".in" at the end of the file
+    unsigned int pos = this->fileName.find_last_of('.');
+    string smallerName = this->fileName.substr(0, pos);        //removes the extension ".in" at the end of the file
+    stringstream output(smallerName);
 
     output.clear();
     output << smallerName << "_" << functionName + ".out";
@@ -78,6 +84,7 @@ void UndirectedCompleteGraph::pathToFile(const string& functionName) const{
         }
         resultFile << endl << this->getDistance();
         resultFile.close();
+        std::cout << "The file '" << basename(output.str().c_str()) << "' was successfully created." << std::endl;
     }
     else{
         stringstream ss;

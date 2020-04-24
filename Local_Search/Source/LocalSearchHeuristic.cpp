@@ -1,4 +1,7 @@
 #include "LocalSearchHeuristic.h"
+#include "../../Constructive/Source/ConstructiveHeuristic.h"
+
+using std::reverse;
 
 void localSearch(UndirectedCompleteGraph& graph){
     constructive(graph);

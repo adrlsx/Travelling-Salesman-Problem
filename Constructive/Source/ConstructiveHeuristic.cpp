@@ -1,7 +1,12 @@
 #include "ConstructiveHeuristic.h"
 
+using std::pair;
+
+typedef boost::graph_traits<Graph>::adjacency_iterator adjacency_iterator;      //adjacency iterator type
+typedef boost::graph_traits<Graph>::edge_iterator edge_iterator;      //edge iterator type
+
 void constructive(UndirectedCompleteGraph& graph){
-    unsigned int vertex = FIRST_VERTEX, nbVertices = graph.getNbVertices();
+    unsigned int vertex = lightestEdgeSource(graph.getGraph()), nbVertices = graph.getNbVertices();
 
     vector<bool> discoveredVertices(nbVertices, false);     //use of vector of bool to verify if a specific vertex is already marked as discovered in constant time
 
@@ -29,4 +34,18 @@ unsigned int nearestVertex(unsigned int vertex, const vector<bool>& discovered, 
         }
     }
     return nextVertex;     //the nearest adjacent vertex becomes the current vertex
+}
+
+unsigned int lightestEdgeSource(const Graph& graph){
+    auto edgeWeightMap = boost::get(edge_weight_t(), graph);      //maps edges with their corresponding weight
+    pair<edge_iterator, edge_iterator> edgeRange = boost::edges(graph);     //iterator-range providing access to the edge set of the graph
+    unsigned int smallestWeight = MAX_VALUE;
+    Edge lightestEdge;
+
+    for (edge_iterator it = edgeRange.first; it != edgeRange.second; it++) {    //for each edge
+        if(edgeWeightMap[*it] < smallestWeight){    //if its weight is smaller than the smallest weight we already found
+            lightestEdge = *it;     //then save it as the lightest edge
+        }
+    }
+    return boost::source(lightestEdge, graph);  //return the source vertex of this edge
 }
