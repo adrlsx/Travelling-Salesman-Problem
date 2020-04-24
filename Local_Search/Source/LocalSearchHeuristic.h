@@ -5,7 +5,6 @@
 #include "../../UndirectedCompleteGraph.h"
 #include "../../Constructive/Source/ConstructiveHeuristic.h"
 
-#define DIST(i, j) (graph.getWeight(*(i), *(j)))
 using std::reverse;
 
 void localSearch(UndirectedCompleteGraph& graph);

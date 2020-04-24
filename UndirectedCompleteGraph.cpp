@@ -85,12 +85,20 @@ void UndirectedCompleteGraph::pathToFile(const string& functionName) const{
         throw std::runtime_error(ss.str());
     }
 }
+void UndirectedCompleteGraph::removeLastVertex() {
+    if(!this->path.empty()){
+        this->distance -= this->getWeight(*(this->path.rbegin()), *(this->path.rbegin() - 1));
+        this->path.pop_back();       //removes the last vertex from the path
+    }
+    else{
+        throw std::invalid_argument("The last vertex could not be removed to the path, as it is already empty.");       //throws and exception if the path is already full
+    }
+}
 
 void UndirectedCompleteGraph::updatePath(unsigned int vertex){
     if(this->pathSize() <= this->getNbVertices()){
         if(!this->path.empty()){
-            unsigned int previousVertex = *(this->path.rbegin());
-            this->distance += this->getWeight(previousVertex, vertex);
+            this->distance += this->getWeight(*(this->path.rbegin()), vertex);
         }
         this->path.push_back(vertex);       //adds the vertex to the path
     }

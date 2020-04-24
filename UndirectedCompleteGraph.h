@@ -1,10 +1,12 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-nodiscard"
 #ifndef TRAVELLING_SALESMAN_PROBLEM_UNDIRECTEDCOMPLETEGRAPH_H
 #define TRAVELLING_SALESMAN_PROBLEM_UNDIRECTEDCOMPLETEGRAPH_H
 
 #include <boost/graph/adjacency_matrix.hpp>
 #include <fstream>
 
-#define STRING_TO_ULONG(string) (strtoul(string.c_str(), nullptr, 10))      //converts a string to an unsigned long
+#define STRING_TO_ULONG(string) strtoul((string).c_str(), nullptr, 10)      //converts a string to an unsigned long
 #define MAX_VALUE (std::numeric_limits<unsigned int>::max()) //this is the max value an unsigned int can hold, it is used in algorithm to model an infinite number
 
 using boost::edge_weight_t, boost::undirectedS, boost::no_property, boost::undirected_tag;
@@ -44,6 +46,7 @@ public:
     }
     unsigned int getDistance() const;       //returns the distance of the current cycle
     void pathToFile(const string& functionName) const;      //prints the current path and the corresponding distance in a file
+    void removeLastVertex();
 
     void updatePath(unsigned int vertex);       //adds the given vertex to the path
     void updatePath(const vector<unsigned int>& newPath);       //modify the path with the new values and recalculate the distance
@@ -53,3 +56,5 @@ public:
 
 
 #endif //TRAVELLING_SALESMAN_PROBLEM_UNDIRECTEDCOMPLETEGRAPH_H
+
+#pragma clang diagnostic pop
