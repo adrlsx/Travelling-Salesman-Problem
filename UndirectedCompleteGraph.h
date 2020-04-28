@@ -34,6 +34,9 @@ public:
     const vector<unsigned int>& getPath() const{
         return path;
     }
+    bool isPathEmpty() const{
+        return this->path.empty();
+    }
     unsigned int pathSize() const{
         return path.size();
     }

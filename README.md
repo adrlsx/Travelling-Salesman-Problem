@@ -6,7 +6,7 @@ This project is developed thanks to the [Boost](https://www.boost.org/doc/libs/1
 For mor informations please refer to the [Instructions](Instructions.pdf) and to the [Report](Report/Report.pdf).
 Specific README are also available for each algorithm/heuristic.
 
-### Installing
+## Installing
 Download the zip file from [Github](https://github.com/adrienls/MCQ-Correction)
 ```
 wget --no-cookies https://github.com/adrienls/Travelling-Salesman-Problem/archive/master.zip -O Travelling-Salesman-Problem-master.zip

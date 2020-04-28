@@ -92,7 +92,7 @@ void processArguments(const int argc, char* const* argv){
             algoName = "exact";
             break;
         default:
-            break;
+            throw std::runtime_error("Unknown algorithm to call.");
     }
     graph.pathToFile(algoName);     //prints out the result in a file
 }

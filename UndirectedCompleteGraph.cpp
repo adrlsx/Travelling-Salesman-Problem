@@ -4,7 +4,7 @@
 
 #define STRING_TO_ULONG(string) strtoul((string).c_str(), nullptr, 10)      //converts a string to an unsigned long
 
-using std::endl, std::stringstream, std::ios;
+using std::endl, std::stringstream, std::ios, std::invalid_argument, std::runtime_error;
 
 UndirectedCompleteGraph::UndirectedCompleteGraph(const string &fileName) : fileName(fileName), graph(matrixSize()), distance(0) {
     std::ifstream graphFile(fileName, ios::in);  //opens the file "fileName" in input mode
@@ -44,7 +44,7 @@ UndirectedCompleteGraph::UndirectedCompleteGraph(const string &fileName) : fileN
     else{
         stringstream ss;
         ss << "The file '" << fileName << "' could not be open.";       //throws and exception if the file could not be open
-        throw std::runtime_error(ss.str());
+        throw runtime_error(ss.str());
     }
 }
 
@@ -62,7 +62,7 @@ unsigned int UndirectedCompleteGraph::matrixSize(){
     else{
         stringstream ss;
         ss << "The file '" << this->fileName << "' could not be open.";       //throws and exception if the file could not be open
-        throw std::runtime_error(ss.str());
+        throw runtime_error(ss.str());
     }
 }
 
@@ -84,35 +84,40 @@ void UndirectedCompleteGraph::pathToFile(const string& functionName) const{
         }
         resultFile << endl << this->getDistance();
         resultFile.close();
-        std::cout << "The file '" << basename(output.str().c_str()) << "' was successfully created." << std::endl;
+        std::cout << "The file '" << output.str() << "' was successfully created." << endl;
     }
     else{
         stringstream ss;
         ss << "The file '" << output.str() << "' could not be created.";       //throws and exception if the file could not be created
-        throw std::runtime_error(ss.str());
+        throw runtime_error(ss.str());
     }
 }
 void UndirectedCompleteGraph::removeLastVertex() {
     if(!this->path.empty()){
-        this->distance -= this->getWeight(*(this->path.rbegin()), *(this->path.rbegin() - 1));
+        if(this->pathSize() > 1){
+            this->distance -= this->getWeight(this->path.back(), *(this->path.rbegin()+1));
+        }
+        else{
+            this->distance = 0;
+        }
         this->path.pop_back();       //removes the last vertex from the path
     }
     else{
-        throw std::invalid_argument("The last vertex could not be removed to the path, as it is already empty.");       //throws and exception if the path is already full
+        throw invalid_argument("The last vertex could not be removed to the path, as it is already empty.");       //throws and exception if the path is already full
     }
 }
 
 void UndirectedCompleteGraph::updatePath(unsigned int vertex){
     if(this->pathSize() <= this->getNbVertices()){
-        if(!this->path.empty()){
-            this->distance += this->getWeight(*(this->path.rbegin()), vertex);
+        if(!path.empty()){
+            this->distance += this->getWeight(this->path.back(), vertex);
         }
         this->path.push_back(vertex);       //adds the vertex to the path
     }
     else{
         stringstream ss;
         ss << "The vertex '" << vertex << "' could not be added to the path, as it is already full.";       //throws and exception if the path is already full
-        throw std::invalid_argument(ss.str());
+        throw invalid_argument(ss.str());
     }
 }
 void UndirectedCompleteGraph::updatePath(const vector<unsigned int>& newPath) {
@@ -125,16 +130,22 @@ void UndirectedCompleteGraph::updatePath(const vector<unsigned int>& newPath) {
         }
     }
     else{
-        stringstream ss;
-        ss << "The new path is too big to replace the old one.";       //throws and exception if the new path is too big
-        throw std::invalid_argument(ss.str());
+        throw invalid_argument("The new path is too big to replace the old one.");      //throws and exception if the new path is too big
     }
 }
 
 unsigned int UndirectedCompleteGraph::getWeight(unsigned int firstVertex, unsigned int secondVertex) const{
-    auto edgeWeightMap = boost::get(edge_weight_t(), this->graph);      //maps edges with their corresponding weight
-    Edge correspondingEdge = boost::edge(firstVertex, secondVertex, this->graph).first;
-    return edgeWeightMap[correspondingEdge];
+    if(firstVertex < this->nbVertices && secondVertex < this->nbVertices){
+        auto edgeWeightMap = boost::get(edge_weight_t(), this->graph);      //maps edges with their corresponding weight
+        Edge correspondingEdge = boost::edge(firstVertex, secondVertex, this->graph).first;
+        return edgeWeightMap[correspondingEdge];
+    }
+    else if(firstVertex == secondVertex){
+        return 0;
+    }
+    else{
+        throw invalid_argument("The given vertex was too big and was not found in the graph.");       //throws and exception if a vertex is not in the graph
+    }
 }
 unsigned int UndirectedCompleteGraph::getWeight(const Edge& edge) const{
     unsigned int source = boost::source(edge, this->graph), target = boost::target(edge, this->graph);
@@ -142,6 +153,11 @@ unsigned int UndirectedCompleteGraph::getWeight(const Edge& edge) const{
 }
 
 unsigned int UndirectedCompleteGraph::getDistance() const{
-    unsigned int lastVertex = *(this->path.rbegin()), firstVertex = *(this->path.begin());
-    return this->distance + this->getWeight(lastVertex, firstVertex);       //gets the distance and add the distance from the last vertex to the first one to finish the cycle
+    if(this->pathSize() > 1){
+        unsigned int lastVertex = this->path.back(), firstVertex = this->path.front();
+        return this->distance + this->getWeight(lastVertex, firstVertex);       //gets the distance and add the distance from the last vertex to the first one to finish the cycle
+    }
+    else{
+        return 0;
+    }
 }

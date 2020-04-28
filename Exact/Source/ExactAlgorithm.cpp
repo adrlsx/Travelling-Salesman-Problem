@@ -1,6 +1,43 @@
 #include "ExactAlgorithm.h"
 
 void exact(UndirectedCompleteGraph& graph){
+    vector<unsigned int> path;
+    unsigned int distance = MAX_VALUE;     //initialize the distance with the maximum value and unsigned int can have
+    vector<bool> discoveredVertices(graph.getNbVertices(), false);     //use of vector of bool to verify if a specific vertex is already marked as discovered in constant time
+
+    backtracking(graph, path, distance, discoveredVertices);
+
+    if(distance != MAX_VALUE){
+        graph.updatePath(path);
+    }
+    else{
+        throw std::runtime_error("No optimal path has been found by brute-force.");
+    }
+}
+void backtracking(UndirectedCompleteGraph& graph, vector<unsigned int>& path, unsigned int& distance, vector<bool>& discoveredVertices){
+    unsigned int nbVertices = graph.getNbVertices();
+    for(unsigned int i = 0; i < nbVertices && graph.getDistance() < distance; i++){
+        if(!discoveredVertices[i]){
+            discoveredVertices[i] = true;
+            graph.updatePath(i);
+            backtracking(graph, path, distance, discoveredVertices);
+        }
+    }
+    if(nbVertices == graph.pathSize()){
+        unsigned int finalDistance = graph.getDistance();
+        if(distance > finalDistance) {
+            distance = finalDistance;
+            path = graph.getPath();
+        }
+    }
+    if(!graph.isPathEmpty()){
+        discoveredVertices[graph.getPath().back()] = false;
+        graph.removeLastVertex();
+    }
+}
+
+/*
+void exact(UndirectedCompleteGraph& graph){
     vector<unsigned int> finalPath, path;
     unsigned int finalDistance = MAX_VALUE, distance = 0, nbVertices = graph.getNbVertices();     //initialize the finalDistance with the maximum value and unsigned int can have
 
@@ -35,3 +72,4 @@ unsigned int getDistanceFromPath(const vector<unsigned int>& path, const Undirec
 
     return distance + graph.getWeight(*lastVertex, *firstVertex);       //adds the weight from the last vertex to the first one to complete the cycle
 }
+*/
