@@ -4,7 +4,9 @@
 using std::reverse;
 
 void localSearch(UndirectedCompleteGraph& graph){
-    constructive(graph);
+    if(graph.isPathEmpty() || graph.pathSize() != graph.getNbVertices()){                   //if no valid initial path has already been constructed, constructs one with the nearest neighbour algorithm
+        constructive(graph);
+    }
     vector<unsigned int> path = graph.getPath();
 
     unsigned int currentWeight, newWeight, minimumWeightFound, firstEdgeWeight, distance = MAX_VALUE;

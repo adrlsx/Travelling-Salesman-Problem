@@ -11,7 +11,7 @@ void exact(UndirectedCompleteGraph& graph){
         graph.updatePath(path);
     }
     else{
-        throw std::runtime_error("No optimal path has been found by brute-force.");
+        throw std::runtime_error("No optimal path has been found by backtracking.");
     }
 }
 void backtracking(UndirectedCompleteGraph& graph, vector<unsigned int>& path, unsigned int& distance, vector<bool>& discoveredVertices){
@@ -36,7 +36,8 @@ void backtracking(UndirectedCompleteGraph& graph, vector<unsigned int>& path, un
     }
 }
 
-/*
+/* Exact algorithm using brute-force, this algorithm does not eliminate identical combinations and does not cut out useless solutions. Its time complexity is in O(n*n!)
+ *
 void exact(UndirectedCompleteGraph& graph){
     vector<unsigned int> finalPath, path;
     unsigned int finalDistance = MAX_VALUE, distance = 0, nbVertices = graph.getNbVertices();     //initialize the finalDistance with the maximum value and unsigned int can have
