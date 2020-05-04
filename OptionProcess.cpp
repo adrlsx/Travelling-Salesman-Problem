@@ -1,6 +1,7 @@
 #include <iostream>
 #include "OptionProcess.h"
 #include "UndirectedCompleteGraph.h"
+#include "Grasp/Source/Grasp.h"
 #include "Local_Search/Source/LocalSearchHeuristic.h"
 #include "Constructive/Source/ConstructiveHeuristic.h"
 #include "Exact/Source/ExactAlgorithm.h"
@@ -76,7 +77,7 @@ void processArguments(const int argc, char* const* argv){
 
     switch (algo){
         case GRASP:
-            //grasp(graph);
+            grasp(graph);
             algoName = "grasp";
             break;
         case LOCAL_SEARCH:

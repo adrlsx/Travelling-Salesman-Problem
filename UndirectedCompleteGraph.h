@@ -49,6 +49,7 @@ public:
 
     void updatePath(unsigned int vertex);       //adds the given vertex to the path
     void updatePath(const vector<unsigned int>& newPath);       //modify the path with the new values and recalculate the distance
+    void clearPath();
     unsigned int getWeight(unsigned int firstVertex, unsigned int secondVertex) const;      //get the weight between 2 vertices
     unsigned int getWeight(const Edge& edge) const;     //get the weight of an edge
 };

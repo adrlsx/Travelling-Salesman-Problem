@@ -2,8 +2,8 @@
 
 void exact(UndirectedCompleteGraph& graph){
     vector<unsigned int> path;
-    unsigned int distance = MAX_VALUE;     //initialize the distance with the maximum value and unsigned int can have
-    vector<bool> discoveredVertices(graph.getNbVertices(), false);     //use of vector of bool to verify if a specific vertex is already marked as discovered in constant time
+    unsigned int distance = MAX_VALUE;                                        //initialize the distance with the maximum value and unsigned int can have
+    vector<bool> discoveredVertices(graph.getNbVertices(), false);      //use of vector of bool to verify if a specific vertex is already marked as discovered in constant time
 
     backtracking(graph, path, distance, discoveredVertices);
 
@@ -16,23 +16,23 @@ void exact(UndirectedCompleteGraph& graph){
 }
 void backtracking(UndirectedCompleteGraph& graph, vector<unsigned int>& path, unsigned int& distance, vector<bool>& discoveredVertices){
     unsigned int nbVertices = graph.getNbVertices();
-    for(unsigned int i = 0; i < nbVertices && graph.getDistance() < distance; i++){
-        if(!discoveredVertices[i]){
-            discoveredVertices[i] = true;
-            graph.updatePath(i);
-            backtracking(graph, path, distance, discoveredVertices);
+    for(unsigned int i = 0; i < nbVertices && graph.getDistance() < distance; i++){     //for each vertex and while the distance is smaller than the minimum distance we previously found
+        if(!discoveredVertices[i]){                                                     //if the vertex has not yet been discovered
+            discoveredVertices[i] = true;                                               //marks it as discovered
+            graph.updatePath(i);                                                        //adds the vertex to the path
+            backtracking(graph, path, distance, discoveredVertices);      //moves to the next vertex
         }
     }
-    if(nbVertices == graph.pathSize()){
+    if(nbVertices == graph.pathSize()){     //if the path is complete
         unsigned int finalDistance = graph.getDistance();
-        if(distance > finalDistance) {
+        if(finalDistance < distance) {      //saves the new path as the final path if its total distance is smaller than the current smallest distance
             distance = finalDistance;
             path = graph.getPath();
         }
     }
-    if(!graph.isPathEmpty()){
-        discoveredVertices[graph.getPath().back()] = false;
-        graph.removeLastVertex();
+    if(!graph.isPathEmpty()){                                   //if the path is not empty
+        discoveredVertices[graph.getPath().back()] = false;     //marks the last vertex from the path as not discovered
+        graph.removeLastVertex();                               //and removes it from the path
     }
 }
 

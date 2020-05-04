@@ -124,14 +124,20 @@ void UndirectedCompleteGraph::updatePath(const vector<unsigned int>& newPath) {
     if(newPath.size() <= this->getNbVertices()){
         this->path = newPath;       //updates the path to the new one
         this->distance = 0;
-        auto lastVertex = this->path.end() - 1, firstVertex = this->path.begin();
-        for (auto it = firstVertex; it != lastVertex; it++) {       //calculate the new distance corresponding to the new path
-            this->distance += this->getWeight(*it, *(it+1));       //get the weight from each vertex to the next one
+        if(!newPath.empty()){
+            auto lastVertex = this->path.end() - 1, firstVertex = this->path.begin();
+            for (auto it = firstVertex; it != lastVertex; it++) {       //calculate the new distance corresponding to the new path
+                this->distance += this->getWeight(*it, *(it+1));       //get the weight from each vertex to the next one
+            }
         }
     }
     else{
         throw invalid_argument("The new path is too big to replace the old one.");      //throws and exception if the new path is too big
     }
+}
+void UndirectedCompleteGraph::clearPath() {
+    this->path.clear();
+    this->distance = 0;
 }
 
 unsigned int UndirectedCompleteGraph::getWeight(unsigned int firstVertex, unsigned int secondVertex) const{
@@ -143,9 +149,9 @@ unsigned int UndirectedCompleteGraph::getWeight(unsigned int firstVertex, unsign
     else if(firstVertex == secondVertex){
         return 0;
     }
-    else{
-        throw invalid_argument("The given vertex was too big and was not found in the graph.");       //throws and exception if a vertex is not in the graph
-    }
+   // else{
+     //   throw invalid_argument("The given vertex was too big and was not found in the graph.");       //throws and exception if a vertex is not in the graph
+    //}
 }
 unsigned int UndirectedCompleteGraph::getWeight(const Edge& edge) const{
     unsigned int source = boost::source(edge, this->graph), target = boost::target(edge, this->graph);
