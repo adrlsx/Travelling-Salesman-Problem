@@ -13,6 +13,9 @@ void grasp(UndirectedCompleteGraph& graph, unsigned int RCL_size, unsigned int n
     else if(RCL_size < 1){
         throw std::invalid_argument("The restricted candidate list size cannot be smaller than one.");
     }
+    if(nbIteration < 1){
+        throw std::invalid_argument("The maximum number of iteration cannot be smaller than one.");
+    }
 
     vector<unsigned int> finalPath;
     unsigned int finalDistance = MAX_VALUE;

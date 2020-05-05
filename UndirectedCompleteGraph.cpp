@@ -2,8 +2,6 @@
 #include <iostream>
 #include "UndirectedCompleteGraph.h"
 
-#define STRING_TO_ULONG(string) strtoul((string).c_str(), nullptr, 10)      //converts a string to an unsigned long
-
 using std::endl; using std::stringstream; using std::ios; using std::invalid_argument; using std::runtime_error;
 
 UndirectedCompleteGraph::UndirectedCompleteGraph(const string &fileName) : fileName(fileName), graph(matrixSize()), distance(0) {
@@ -19,7 +17,7 @@ UndirectedCompleteGraph::UndirectedCompleteGraph(const string &fileName) : fileN
             getline(graphFile, input, ' ');     //reads the next value from the file
 
             if(input != "0" && matrixColumn < this->nbVertices){     //an adjacency matrix is symmetric about its diagonal, which is filled with 0
-                weight = STRING_TO_ULONG(input);
+                weight = stoul(input);
                 boost::add_edge(matrixLine, matrixColumn, weight, this->graph);   //adds an edge to the adjacency matrix with the corresponding weight, corresponding vertices are automatically created
                 matrixColumn++;
             }
@@ -54,7 +52,7 @@ unsigned int UndirectedCompleteGraph::matrixSize(){
     if(graphFile.is_open()){
         string input;
         getline(graphFile, input);
-        this->nbVertices = STRING_TO_ULONG(input);     //first line represents the number of vertices in the graph
+        this->nbVertices = stoul(input);     //first line represents the number of vertices in the graph
 
         graphFile.close();
         return this->nbVertices;
