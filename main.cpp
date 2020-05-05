@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
         return EXIT_SUCCESS;
     }
     catch(exception& e){
-        cout << e.what() << endl << endl;
+        cout << endl << "Error: " << e.what() << endl << endl;
         printHelp();
         return EXIT_FAILURE;
     }
