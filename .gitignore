@@ -38,3 +38,4 @@ Report/*.aux
 
 *.in
 *.out
+*.o

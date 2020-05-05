@@ -49,6 +49,9 @@ Grasp.o: Grasp/Source/Grasp.cpp
 clean:
 	rm -f $(OBJS) $(OUT)
 
+# rebuild the project
+rebuild: clean all
+
 # compile program with debugging information
 debug: $(OUT)
 	valgrind $(OUT)
