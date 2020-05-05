@@ -4,7 +4,7 @@
 
 #define STRING_TO_ULONG(string) strtoul((string).c_str(), nullptr, 10)      //converts a string to an unsigned long
 
-using std::endl, std::stringstream, std::ios, std::invalid_argument, std::runtime_error;
+using std::endl; using std::stringstream; using std::ios; using std::invalid_argument; using std::runtime_error;
 
 UndirectedCompleteGraph::UndirectedCompleteGraph(const string &fileName) : fileName(fileName), graph(matrixSize()), distance(0) {
     std::ifstream graphFile(fileName, ios::in);  //opens the file "fileName" in input mode
@@ -149,9 +149,9 @@ unsigned int UndirectedCompleteGraph::getWeight(unsigned int firstVertex, unsign
     else if(firstVertex == secondVertex){
         return 0;
     }
-   // else{
-     //   throw invalid_argument("The given vertex was too big and was not found in the graph.");       //throws and exception if a vertex is not in the graph
-    //}
+    else{
+        throw invalid_argument("The given vertex was too big and was not found in the graph.");       //throws and exception if a vertex is not in the graph
+    }
 }
 unsigned int UndirectedCompleteGraph::getWeight(const Edge& edge) const{
     unsigned int source = boost::source(edge, this->graph), target = boost::target(edge, this->graph);

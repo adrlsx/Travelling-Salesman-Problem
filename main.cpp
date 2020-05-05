@@ -5,7 +5,7 @@
 #define GET_TIME std::chrono::high_resolution_clock::now();
 #define EXECUTION_TIME(time1, time2) std::chrono::duration_cast<std::chrono::microseconds>((time2) - (time1)).count();
 
-using std::exception, std::endl, std::cout;
+using std::exception; using std::endl; using std::cout;
 
 int main(int argc, char** argv) {
     try{

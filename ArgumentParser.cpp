@@ -1,7 +1,7 @@
 #include <sstream>
 #include "ArgumentParser.h"
 
-using std::pair, std::stringstream, std::invalid_argument;
+using std::pair; using std::stringstream; using std::invalid_argument;
 
 map<char, string> arguments(const int& argc, char* const* const argv, const char* const shortOpts, const struct option longOpts[]) {
     int optionIndex = 0; //getopt_long stores the option index here

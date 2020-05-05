@@ -3,14 +3,14 @@
 
 #include <boost/graph/adjacency_matrix.hpp>
 
-#define MAX_VALUE (std::numeric_limits<unsigned int>::max()) //this is the max value an unsigned int can hold, it is used in algorithm to model an infinite number
+#define MAX_VALUE (std::numeric_limits<unsigned int>::max())                        //this is the max value an unsigned int can hold, it is used in algorithm to model an infinite number
 
-using boost::edge_weight_t, boost::undirectedS, boost::no_property, boost::undirected_tag;
-using std::string, std::vector;
+using boost::edge_weight_t; using boost::undirectedS; using boost::no_property; using boost::undirected_tag;
+using std::string; using std::vector;
 
-typedef boost::property<edge_weight_t, unsigned int> Weight;   //weight type
-typedef boost::adjacency_matrix<undirectedS, no_property, Weight> Graph;   //undirected complete graph type
-typedef boost::detail::matrix_edge_desc_impl<undirected_tag, unsigned long> Edge;     //edge type
+typedef boost::property<edge_weight_t, unsigned int> Weight;                        //weight type
+typedef boost::adjacency_matrix<undirectedS, no_property, Weight> Graph;            //undirected complete graph type
+typedef boost::detail::matrix_edge_desc_impl<undirected_tag, unsigned long> Edge;   //edge type
 
 class UndirectedCompleteGraph {
 private:
@@ -43,15 +43,15 @@ public:
     unsigned int getNbVertices() const{
         return this->nbVertices;
     }
-    unsigned int getDistance() const;       //returns the distance of the current cycle
-    void pathToFile(const string& functionName) const;      //prints the current path and the corresponding distance in a file
+    unsigned int getDistance() const;                                                   //returns the distance of the current cycle
+    void pathToFile(const string& functionName) const;                                  //prints the current path and the corresponding distance in a file
     void removeLastVertex();
 
-    void updatePath(unsigned int vertex);       //adds the given vertex to the path
-    void updatePath(const vector<unsigned int>& newPath);       //modify the path with the new values and recalculate the distance
+    void updatePath(unsigned int vertex);                                               //adds the given vertex to the path
+    void updatePath(const vector<unsigned int>& newPath);                               //modify the path with the new values and recalculate the distance
     void clearPath();
-    unsigned int getWeight(unsigned int firstVertex, unsigned int secondVertex) const;      //get the weight between 2 vertices
-    unsigned int getWeight(const Edge& edge) const;     //get the weight of an edge
+    unsigned int getWeight(unsigned int firstVertex, unsigned int secondVertex) const;  //get the weight between 2 vertices
+    unsigned int getWeight(const Edge& edge) const;                                     //get the weight of an edge
 };
 
 

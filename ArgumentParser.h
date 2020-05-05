@@ -5,7 +5,7 @@
 #include <string>
 #include <getopt.h>
 
-using std::map, std::string;
+using std::map; using std::string;
 
 map<char, string> arguments(const int& argc, char* const* argv, const char* shortOpts, const struct option longOpts[]);
 

@@ -6,13 +6,13 @@
 #include "Constructive/Source/ConstructiveHeuristic.h"
 #include "Exact/Source/ExactAlgorithm.h"
 
-using std::endl, std::invalid_argument;
+using std::endl; using std::invalid_argument;
 enum algorithm {EXACT, CONSTRUCTIVE_HEURISTIC, LOCAL_SEARCH, GRASP};
 
 void printHelp() noexcept{
-    std::cout << "For more information on this program please refer to https://github.com/adrienls/Travelling-Salesman-Problem" << endl <<
+    std::cout << "For more information on this program please refer to https://github.com/adrienls/Travelling-Salesman-Problem" << endl << "Available options:" << endl <<
     "   -f, --file                                                   Select the *.in instance to create the graph from" << endl <<
-    "   -a, --algo  <exact, constructive, local_search, grasp>:      Chose the algorithm to run" << endl <<
+    "   -a, --algo  <exact, constructive, local_search, grasp>       Chose the algorithm to run" << endl <<
     "   -h, --help:                                                  Print Help (this message) and exit" << endl << endl;
 }
 
