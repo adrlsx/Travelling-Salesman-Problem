@@ -70,7 +70,7 @@ void UndirectedCompleteGraph::pathToFile(const string& functionName) const{
     stringstream output(smallerName);
 
     output.clear();
-    output << smallerName << "_" << functionName + ".out";
+    output << smallerName << "_" << functionName << ".out";
     std::ofstream resultFile(output.str(), ios::out);      //creates the file "fileName_functionName.out"
 
     if(resultFile.is_open()){
@@ -156,7 +156,7 @@ unsigned int UndirectedCompleteGraph::getWeight(const Edge& edge) const{
     return this->getWeight(source, target);
 }
 
-unsigned int UndirectedCompleteGraph::getDistance() const{
+unsigned int UndirectedCompleteGraph::getDistance() const noexcept{
     if(this->pathSize() > 1){
         unsigned int lastVertex = this->path.back(), firstVertex = this->path.front();
         return this->distance + this->getWeight(lastVertex, firstVertex);       //gets the distance and add the distance from the last vertex to the first one to finish the cycle

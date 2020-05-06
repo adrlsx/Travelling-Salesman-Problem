@@ -25,25 +25,25 @@ public:
     explicit UndirectedCompleteGraph(const string &fileName);
     virtual ~UndirectedCompleteGraph() = default;
 
-    const string &getFileName() const {
+    const string &getFileName() const noexcept {
         return fileName;
     }
-    const Graph &getGraph() const {
+    const Graph &getGraph() const noexcept{
         return graph;
     }
-    const vector<unsigned int>& getPath() const{
+    const vector<unsigned int>& getPath() const noexcept{
         return path;
     }
-    bool isPathEmpty() const{
+    bool isPathEmpty() const noexcept{
         return this->path.empty();
     }
-    unsigned int pathSize() const{
+    unsigned int pathSize() const noexcept {
         return path.size();
     }
-    unsigned int getNbVertices() const{
+    unsigned int getNbVertices() const noexcept{
         return this->nbVertices;
     }
-    unsigned int getDistance() const;                                                   //returns the distance of the current cycle
+    unsigned int getDistance() const noexcept;                                                   //returns the distance of the current cycle
     void pathToFile(const string& functionName) const;                                  //prints the current path and the corresponding distance in a file
     void removeLastVertex();
 

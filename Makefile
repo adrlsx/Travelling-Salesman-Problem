@@ -3,9 +3,9 @@
 #	File generated thanks to https://www.nicomedes.assistedcoding.eu/#/app/makefilegen
 #
 
-OBJS	= main.o Constructive/Source/ConstructiveHeuristic.o Exact/Source/ExactAlgorithm.o UndirectedCompleteGraph.o Local_Search/Source/LocalSearchHeuristic.o ArgumentParser.o OptionProcess.o Grasp/Source/Grasp.o
-SOURCE	= main.cpp Constructive/Source/ConstructiveHeuristic.cpp Exact/Source/ExactAlgorithm.cpp UndirectedCompleteGraph.cpp Local_Search/Source/LocalSearchHeuristic.cpp ArgumentParser.cpp OptionProcess.cpp Grasp/Source/Grasp.cpp
-HEADER	= Constructive/Source/ConstructiveHeuristic.h Exact/Source/ExactAlgorithm.h UndirectedCompleteGraph.h Local_Search/Source/LocalSearchHeuristic.h ArgumentParser.h OptionProcess.h Grasp/Source/Grasp.h
+OBJS	= main.o Constructive/Source/ConstructiveHeuristic.o Exact/Source/ExactAlgorithm.o UndirectedCompleteGraph.o Local_Search/Source/LocalSearchHeuristic.o ArgumentParser.o OptionProcess.o Grasp/Source/Grasp.o InstanceGenerator.o
+SOURCE	= main.cpp Constructive/Source/ConstructiveHeuristic.cpp Exact/Source/ExactAlgorithm.cpp UndirectedCompleteGraph.cpp Local_Search/Source/LocalSearchHeuristic.cpp ArgumentParser.cpp OptionProcess.cpp Grasp/Source/Grasp.cpp InstanceGenerator.cpp
+HEADER	= Constructive/Source/ConstructiveHeuristic.h Exact/Source/ExactAlgorithm.h UndirectedCompleteGraph.h Local_Search/Source/LocalSearchHeuristic.h ArgumentParser.h OptionProcess.h Grasp/Source/Grasp.h InstanceGenerator.h
 OUT	= Travelling_Salesman_Problem
 CC	 = g++
 FLAGS	 = -O3 -c
@@ -44,6 +44,8 @@ OptionProcess.o: OptionProcess.cpp
 Grasp.o: Grasp/Source/Grasp.cpp
 	$(CC) $(FLAGS) Grasp/Source/Grasp.cpp $(LFLAGS)
 
+InstanceGenerator.o: InstanceGenerator.cpp
+	$(CC) $(FLAGS) InstanceGenerator.cpp $(LFLAGS)
 
 # clean house
 clean:

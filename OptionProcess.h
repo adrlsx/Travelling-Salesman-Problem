@@ -8,6 +8,8 @@ typedef struct argValues{
     char algoChoice;
     unsigned int rclSize;
     unsigned int maxIteration;
+    bool generateInstance;
+    unsigned int nbVertices;
 } argValues;
 
 void printHelp() noexcept;

@@ -8,7 +8,7 @@ using std::pair;
 
 void grasp(UndirectedCompleteGraph& graph, unsigned int RCL_size, unsigned int nbIteration){
     if(RCL_size > graph.getNbVertices()){
-        throw std::invalid_argument("The restricted candidate list size cannot be bigger than the total number of vertices in the graph.");
+        RCL_size = graph.getNbVertices();
     }
     else if(RCL_size < 1){
         throw std::invalid_argument("The restricted candidate list size cannot be smaller than one.");
