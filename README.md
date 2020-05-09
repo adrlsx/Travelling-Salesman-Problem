@@ -27,7 +27,7 @@ Start the program by launching the `./Travelling_Salesman_Problem` file with the
 
 Use the `--help` option for more information.
 
-## Use
+## Usage
 
 ### Mandatory options
 This command line program aims at solving the TSP problem and needs at least 2 arguments to run.
@@ -39,28 +39,39 @@ For example, you could call the program like this, assuming that you are in the 
 ```
 ./Travelling_Salesman_Problem -a local_search -f "/home/user/test.in"
 ```
+### Local Search specific
+In the case you are running the local search heuristic, another option is available:
+* To specify the maximum number of allowed iterations enter the option `--local-search-max-iteration` or `-l` followed by an integer greater than or equal to 1.
+The Local Search heuristic will stop if it reaches the input iteration number and it will print out the best result.
+This option is not mandatory, and its default value is `100`.
 
 ### GRASP specific
 In the case you are running GRASP, two more options are available:
-* To specify the Restricted Candidate List (RCL) size enter the option `--rcl-size` or `-r` followed by an integer between 1 and the number of vertices in the graph.
-If the given argument is too big it will be modified to be equal to the number of vertices.
-This option is not mandatory, and its default value is `20`.
-* To specify the number of allowed iteration without improvement, enter the option `--max-iteration` or `-m` followed by an integer greater than or equal to 1.
-When GRASP finds a solution better than the best one he found yet, it resets the number of iteration to 0. For each solution found the number of iteration is incremented by one, and if it reaches the input iteration number GRASP stops and prints out the best result.
+* To specify the Restricted Candidate List (RCL) quality criteria enter the option `--rcl-quality` or `-r` followed by a positive percentage.
+This percentage ables GRASP to select the elements that are not more than `input%` away from the best element.
 This option is not mandatory, and its default value is `5`.
+* To specify the number of allowed iteration without improvement, enter the option `--improved-iteration` or `-i` followed by an integer greater than or equal to 1.
+When GRASP finds a solution better than the best one he found yet, it resets the number of iteration to 0. For each solution found the number of iteration is incremented by one, and if it reaches the input iteration number GRASP stops and prints out the best result.
+This option is not mandatory, and its default value is `15`.
+* To specify the maximum number of allowed iterations enter the option `--grasp-max-iteration` or `-g` followed by an integer greater than or equal to 1.
+GRASP will stop if it reaches the input iteration number and it will print out the best result.
+This option is not mandatory, and its default value is `100`.
+
+As the local search heuristic is used as part of GRASP you can also specify the max iteration number for the local search heuristic when using GRASP.
 
 For example, you could call GRASP like this, assuming that you are in the correct directory:
 ```
-./Travelling_Salesman_Problem -a grasp -f "/home/user/test.in" -r 10 -m 50
+./Travelling_Salesman_Problem -a grasp -f "/home/user/test.in" -r 10 -i 30 -g 50
 ```
-Those two options are only available with GRASP. If they are run with other algorithms they will be discarded and there value will not be taken into account.
 
 ### Instance generator
 An option is available to generate a random instance in `*.in` for testing purpose.
 This instance will have the size given in argument and will follow the [Instructions](Instructions.pdf) specifications.
-Furthermore, each distance in the graph will randomly be between 1 and 10 times the number of vertices.
-* To specify the size of the instance enter the option `--generator` or `-g` followed by an integer greater than or equal to 1.
+Furthermore, each distance in the graph will randomly be between 1 and the the number of vertices times 10.
+* To specify the size of the instance enter the option `--new-instance` or `-n` followed by an integer greater than or equal to 1.
 This option is not mandatory, and its default value is `15`.
+
+**If options are badly used, for example with invalid algorithms/heuristics no error will be thrown, but they will be discarded and there value will not be taken into account.**
 
 ## Built With
 * [The Boost Graph Library (BGL)](https://www.boost.org/doc/libs/1_72_0/libs/graph/doc/index.html) - A standardized generic interface for traversing graphs.

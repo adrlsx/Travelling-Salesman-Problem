@@ -6,8 +6,10 @@
 typedef struct argValues{
     string instance;
     char algoChoice;
-    unsigned int rclSize;
-    unsigned int maxIteration;
+    unsigned int rclQuality;
+    unsigned int improvedIteration;
+    unsigned int graspMaxIteration;
+    unsigned int localSearchMaxIteration;
     bool generateInstance;
     unsigned int nbVertices;
 } argValues;

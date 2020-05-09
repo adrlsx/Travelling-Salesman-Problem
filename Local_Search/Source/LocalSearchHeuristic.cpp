@@ -3,7 +3,7 @@
 
 using std::reverse;
 
-void localSearch(UndirectedCompleteGraph& graph){
+void localSearch(UndirectedCompleteGraph& graph, unsigned int maxIteration){
     if(graph.isPathEmpty() || graph.pathSize() != graph.getNbVertices()){                   //if no valid initial path has already been constructed, constructs one with the nearest neighbour algorithm
         constructive(graph);
     }
@@ -12,8 +12,8 @@ void localSearch(UndirectedCompleteGraph& graph){
     unsigned int currentWeight, newWeight, minimumWeightFound, firstEdgeWeight, distance = MAX_VALUE;
     vector<unsigned int>::iterator vertexToSwap, iNext, jNext;
 
-    while(graph.getDistance() < distance){                                                  //repeat until no improvement is made
-        for(auto i = path.begin(); i != path.end(); i++){                                    //for each vertex
+    for(unsigned int max = 0; graph.getDistance() < distance && max < maxIteration; max++){ //repeat until no improvement is made
+        for(auto i = path.begin(); i != path.end(); i++){                                   //for each vertex
             minimumWeightFound = MAX_VALUE;                                                 //no minimum weight found yet, MAX_VALUE = infinite
             iNext = (i != path.end() - 1)? i+1 : path.begin();                              //iNext is the following vertex, if i is the last vertex, iNext will point to the first one to end the cycle
             firstEdgeWeight = graph.getWeight(*i, *iNext);                                  //weight of the edge between i and iNext

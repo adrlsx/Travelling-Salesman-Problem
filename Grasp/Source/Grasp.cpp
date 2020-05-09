@@ -6,23 +6,23 @@
 typedef boost::graph_traits<Graph>::adjacency_iterator adjacency_iterator;      //adjacency iterator type
 using std::pair;
 
-void grasp(UndirectedCompleteGraph& graph, unsigned int RCL_size, unsigned int nbIteration){
-    if(RCL_size > graph.getNbVertices()){
-        RCL_size = graph.getNbVertices();
+void grasp(UndirectedCompleteGraph& graph, unsigned int alpha, unsigned int improvedIteration, unsigned int graspMaxIteration, unsigned int localSearchMaxIteration){
+    if(alpha < 0){
+        throw std::invalid_argument("The quality criteria for the restricted candidate list cannot be smaller than one.");
     }
-    else if(RCL_size < 1){
-        throw std::invalid_argument("The restricted candidate list size cannot be smaller than one.");
+    if(improvedIteration < 1){
+        throw std::invalid_argument("The number of improved iteration cannot be smaller than one.");
     }
-    if(nbIteration < 1){
+    if(graspMaxIteration < 1){
         throw std::invalid_argument("The maximum number of iteration cannot be smaller than one.");
     }
 
     vector<unsigned int> finalPath;
     unsigned int finalDistance = MAX_VALUE;
 
-    for(unsigned int i = 0; i < nbIteration; i++){          //repeat until no improvement is made
-        greedyRandomizedConstruction(graph, RCL_size);  //construct a greedy randomized solution with a restricted candidate list of size RCL_size
-        localSearch(graph);                             //locally improves the solution
+    for(unsigned int i = 0, j = 0; i < improvedIteration && j < graspMaxIteration; i++, j++){          //repeat until no improvement is made
+        greedyRandomizedConstruction(graph, alpha);      //construct a greedy randomized solution with a restricted candidate list of size alpha
+        localSearch(graph, localSearchMaxIteration);     //locally improves the solution
 
         if(graph.getDistance() < finalDistance){            //saves the new path as the final path if its total distance is smaller than the current smallest distance
             finalDistance = graph.getDistance();
@@ -33,7 +33,7 @@ void grasp(UndirectedCompleteGraph& graph, unsigned int RCL_size, unsigned int n
     graph.updatePath(finalPath);                            //update the final path and the final distance with the best one we just found
 }
 
-void greedyRandomizedConstruction(UndirectedCompleteGraph& graph, unsigned int RCL_size){
+void greedyRandomizedConstruction(UndirectedCompleteGraph& graph, unsigned int alpha){
     unsigned int vertex = lightestEdgeSource(graph.getGraph()), nbVertices = graph.getNbVertices();
     graph.clearPath();
     vector<bool> discoveredVertices(nbVertices, false);     //use of vector of bool to verify if a specific vertex is already marked as discovered in constant time
@@ -41,20 +41,24 @@ void greedyRandomizedConstruction(UndirectedCompleteGraph& graph, unsigned int R
     while (graph.pathSize() != nbVertices) {        //while the path is not complete
         graph.updatePath(vertex);                   //adds the nearest vertex to the path and updates the distance
         discoveredVertices[vertex] = true;          //marks the vertex as discovered
-        vertex = restrictedCandidateList(RCL_size, vertex, discoveredVertices, graph);      //gets a random vertex in the restricted candidate list and moves to it
+        vertex = restrictedCandidateList(alpha, vertex, discoveredVertices, graph);      //gets a random vertex in the restricted candidate list and moves to it
     }
 }
 
-unsigned int restrictedCandidateList(unsigned int RCL_size, unsigned int vertex, vector<bool> discovered, const UndirectedCompleteGraph& graph){
+unsigned int restrictedCandidateList(unsigned int alpha, unsigned int vertex, const vector<bool>& discovered, const UndirectedCompleteGraph& graph){
     pair<adjacency_iterator, adjacency_iterator> adjacentVertices;
     vector<unsigned int> list;
-    unsigned int nextVertex;
+    unsigned int currentWeight;
+    float acceptableWeight = satisfyingCriteria(alpha, vertex, discovered, graph);          //gets the nearest vertex, return the same vertex if no adjacent vertex is available (all discovered);
 
-    for(unsigned int i = 0; i < RCL_size; i++){                 //while the restricted candidate list is not full
-        nextVertex = nearestVertex(vertex, discovered, graph);  //gets the nearest vertex, return the same vertex if no adjacent vertex is available (all discovered)
-        if(nextVertex != vertex){                               //if a vertex has been found
-            list.push_back(nextVertex);                         //adds the vertex in the restricted candidate list
-            discovered[nextVertex] = true;                      //marks the vertex as discovered only in this function spec
+    for (adjacentVertices = adjacent_vertices(vertex, graph.getGraph());
+         adjacentVertices.first != adjacentVertices.second; adjacentVertices.first++) {     //tests every adjacent vertex to the current vertex
+
+        if (!discovered[*adjacentVertices.first]) {                                         //if the adjacent vertex is not yet discovered
+            currentWeight = graph.getWeight(vertex, *adjacentVertices.first);               //gets the distance between the current vertex and the adjacent vertex
+            if ((float)currentWeight < acceptableWeight) {                                  //if the weight satisfies the given criteria
+                list.push_back(*adjacentVertices.first);                                    //adds the the adjacent vertex in the RCL
+            }
         }
     }
     if(!list.empty()){                                                          //if a vertex has been added in the restricted candidate list
@@ -63,6 +67,12 @@ unsigned int restrictedCandidateList(unsigned int RCL_size, unsigned int vertex,
     else{                                                                       //otherwise returns the input vertex
         return vertex;
     }
+}
+
+float satisfyingCriteria(unsigned int alpha, unsigned int vertex, const vector<bool>& discovered, const UndirectedCompleteGraph& graph){
+    unsigned int bestVertex = nearestVertex(vertex, discovered, graph);
+    unsigned int bestWeight = graph.getWeight(vertex, bestVertex);
+    return (float)bestWeight * (1 + (float)alpha / 100);
 }
 
 unsigned int randomCandidate(unsigned int startRange, unsigned int endRange){
